@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>to do app</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            font-family: Arial, Helvetica, sans-serif;
+            background:linear-gradient(135deg, #667eea, #764ba2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container{
+            background-color: white;
+            width: 400px;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        h2{
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        input{
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            outline: none;
+        }
+
+        button { 
+            padding: 10px 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-btn{
+            background-color: #667eea;
+            color: white;
+        }
+
+        .add-btn:hover{
+            background-color: #5563c1;
+        }
+
+        ul{
+            list-style: none;
+            margin-top: 20px;
+        }
+
+        li{
+            background-color: #f4f4f4;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: 0.3s;
+        }
+        li.completed span{
+            text-decoration: line-through;
+            color: gray;
+        }
+        .delete-btn{
+            background-color: #ff4d4d;
+            color: white;
+            font-size: 12px;
+            padding: 5px 8px;
+        }
+        .delete-btn:hover{
+            background-color: #cc0000;
+        }
+
+        .footer{
+            margin-top:15px ;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .clear-btn{
+            background-color: #333;
+            color: white;
+            font-size: 12px;
+            padding: 6px 10px;
+        }
+
+        .clear-btn:hover{
+            background-color: black;
+        }
+
+        .task-count{
+            font-size: 14px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <h2>To do list</h2>
+    <div class="input-group">
+    <input type="text"  id="taskInput" placeholder="Enter a task">
+    <button class="add-btn" id="addBtn">Add</button>
+    </div>
+
+    <ul id="taskList"></ul>
+    
+    <div class="footer">
+        <span class="task-count" id="taskCount">0 tasks</span>
+        <button class="clear-btn" id="clearBtn">Clear All</button>
+    </div>
+
+</div>
+    <script src="/todo_list/script.js"></script>
+</body>
+</html>
