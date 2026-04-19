@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auth Form</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+/* Container */
+.container {
+  width: 350px;
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Titles */
+h2 {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Inputs */
+.input-group {
+  position: relative;
+  margin: 15px 0;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  transition: 0.3s;
+}
+
+/* Focus Effect */
+input:focus {
+  border-color: #4facfe;
+  box-shadow: 0 0 5px #4facfe;
+}
+
+/* Button */
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #4facfe;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #007bff;
+  transform: scale(1.03);
+}
+
+/* Toggle */
+.toggle {
+  text-align: center;
+  margin-top: 10px;
+  color: #007bff;
+  cursor: pointer;
+}
+
+.toggle:hover {
+  text-decoration: underline;
+}
+
+/* Error & Success */
+.error {
+  color: red;
+  font-size: 12px;
+}
+
+.success {
+  color: green;
+  text-align: center;
+  margin-top: 10px;
+}
+
+/* Animation */
+.form {
+  transition: 0.5s;
+}
+
+.hidden {
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- SIGNUP -->
+  <div id="signupForm" class="form">
+    <h2>Create Account</h2>
+
+    <div class="input-group">
+      <input type="text" id="sName" placeholder="Name">
+      <div id="sNameError" class="error"></div>
+    </div>
+
+    <div class="input-group">
+      <input type="email" id="sEmail" placeholder="Email">
+      <div id="sEmailError" class="error"></div>
+    </div>
+
+    <div class="input-group">
+      <input type="password" id="sPassword" placeholder="Password">
+      <div id="sPasswordError" class="error"></div>
+    </div>
+
+    <button onclick="signup()">Signup</button>
+    <div id="sSuccess" class="success"></div>
+
+    <div class="toggle" onclick="showLogin()">Already have account? Login</div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="loginForm" class="form hidden">
+    <h2>Welcome Back</h2>
+
+    <div class="input-group">
+      <input type="email" id="lEmail" placeholder="Email">
+      <div id="lEmailError" class="error"></div>
+    </div>
+
+    <div class="input-group">
+      <input type="password" id="lPassword" placeholder="Password">
+      <div id="lPasswordError" class="error"></div>
+    </div>
+
+    <button onclick="login()">Login</button>
+    <div id="lSuccess" class="success"></div>
+
+    <div class="toggle" onclick="showSignup()">Create new account</div>
+  </div>
+
+</div>
+
+<script>
+// Toggle Forms
+function showLogin() {
+  document.getElementById("signupForm").classList.add("hidden");
+  document.getElementById("loginForm").classList.remove("hidden");
+}
+
+function showSignup() {
+  document.getElementById("loginForm").classList.add("hidden");
+  document.getElementById("signupForm").classList.remove("hidden");
+}
+
+// Signup
+function signup() {
+  let name = document.getElementById("sName").value.trim();
+  let email = document.getElementById("sEmail").value.trim();
+  let password = document.getElementById("sPassword").value;
+
+  let isValid = true;
+
+  document.getElementById("sNameError").innerText = "";
+  document.getElementById("sEmailError").innerText = "";
+  document.getElementById("sPasswordError").innerText = "";
+  document.getElementById("sSuccess").innerText = "";
+
+  if (name === "") {
+    document.getElementById("sNameError").innerText = "Name required";
+    isValid = false;
+  }
+
+  if (!email.includes("@")) {
+    document.getElementById("sEmailError").innerText = "Invalid email";
+    isValid = false;
+  }
+
+  if (password.length < 6) {
+    document.getElementById("sPasswordError").innerText = "Min 6 characters";
+    isValid = false;
+  }
+
+  if (isValid) {
+    localStorage.setItem("email", email);
+    localStorage.setItem("password", password);
+    document.getElementById("sSuccess").innerText = "Signup successful!";
+  }
+}
+
+// Login
+function login() {
+  let email = document.getElementById("lEmail").value.trim();
+  let password = document.getElementById("lPassword").value;
+
+  let savedEmail = localStorage.getItem("email");
+  let savedPassword = localStorage.getItem("password");
+
+  document.getElementById("lEmailError").innerText = "";
+  document.getElementById("lPasswordError").innerText = "";
+  document.getElementById("lSuccess").innerText = "";
+
+  let isValid = true;
+
+  if (email === "") {
+    document.getElementById("lEmailError").innerText = "Email required";
+    isValid = false;
+  }
+
+  if (password === "") {
+    document.getElementById("lPasswordError").innerText = "Password required";
+    isValid = false;
+  }
+
+  if (isValid) {
+    if (email === savedEmail && password === savedPassword) {
+      document.getElementById("lSuccess").innerText = "Login successful!";
+    } else {
+      document.getElementById("lSuccess").innerText = "Invalid credentials!";
+    }
+  }
+}
+</script>
+
+</body>
+</html>
