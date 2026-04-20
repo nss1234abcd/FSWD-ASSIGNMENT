@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Component Hunt</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* Navbar */
+.navbar {
+  background: #0d47a1;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.navbar input {
+  padding: 5px;
+  border-radius: 5px;
+  border: none;
+}
+
+/* Layout */
+.container {
+  display: flex;
+  flex: 1;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 200px;
+  background: #f4f4f4;
+  padding: 15px;
+  transition: 0.3s;
+}
+
+.sidebar div {
+  margin: 10px 0;
+  cursor: pointer;
+}
+
+.sidebar div:hover {
+  color: blue;
+}
+
+/* Main */
+.main {
+  flex: 1;
+  padding: 20px;
+}
+
+/* Cards */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+}
+
+.card {
+  background: white;
+  padding: 15px;
+  border-radius: 10px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: scale(1.05);
+}
+
+/* Footer */
+.footer {
+  background: #0d47a1;
+  color: white;
+  text-align: center;
+  padding: 10px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR COMPONENT -->
+<div class="navbar">
+  <h3>MyApp</h3>
+  <input type="text" placeholder="Search..." onkeyup="searchCards(this.value)">
+</div>
+
+<div class="container">
+
+  <!-- SIDEBAR COMPONENT -->
+  <div class="sidebar">
+    <div onclick="filterCategory('All')">All</div>
+    <div onclick="filterCategory('Tech')">Tech</div>
+    <div onclick="filterCategory('Food')">Food</div>
+    <div onclick="filterCategory('Travel')">Travel</div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="main">
+    <h2>Explore Components</h2>
+    <div class="grid" id="cardContainer"></div>
+  </div>
+
+</div>
+
+<!-- FOOTER COMPONENT -->
+<div class="footer">© 2026 Component Hunt Project</div>
+
+<script>
+const data = [
+  { title: "React Basics", category: "Tech" },
+  { title: "JavaScript Tips", category: "Tech" },
+  { title: "Pizza Recipe", category: "Food" },
+  { title: "Burger Guide", category: "Food" },
+  { title: "Goa Trip", category: "Travel" },
+  { title: "Mountain Hiking", category: "Travel" }
+];
+
+// Render Cards
+function displayCards(items) {
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+
+  items.forEach(item => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <h4>${item.title}</h4>
+      <p>${item.category}</p>
+    `;
+    container.appendChild(card);
+  });
+}
+
+// Filter Category
+function filterCategory(category) {
+  if (category === "All") {
+    displayCards(data);
+  } else {
+    const filtered = data.filter(item => item.category === category);
+    displayCards(filtered);
+  }
+}
+
+// Search
+function searchCards(query) {
+  const filtered = data.filter(item =>
+    item.title.toLowerCase().includes(query.toLowerCase())
+  );
+  displayCards(filtered);
+}
+
+// Initial Load
+displayCards(data);
+</script>
+
+</body>
+</html>
