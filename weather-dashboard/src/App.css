@@ -1,0 +1,67 @@
+body {
+  margin: 0;
+  font-family: Arial;
+  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+}
+
+.app {
+  text-align: center;
+  padding: 30px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+/* Search */
+.search-box {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+}
+
+button {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+/* Card */
+.card {
+  margin: 20px auto;
+  padding: 20px;
+  width: 250px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+.card img {
+  width: 80px;
+}
+
+/* States */
+.loading {
+  color: blue;
+  margin-top: 15px;
+}
+
+.error {
+  color: red;
+  margin-top: 15px;
+}
