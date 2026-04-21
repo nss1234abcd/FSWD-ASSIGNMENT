@@ -1,0 +1,37 @@
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+/* Navbar */
+.navbar {
+  background: #333;
+  color: white;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.link {
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.link:hover {
+  color: yellow;
+}
+
+/* Active link */
+.active {
+  border-bottom: 2px solid yellow;
+}
+
+/* Page */
+.page {
+  text-align: center;
+  padding: 50px;
+  min-height: 90vh;
+  background: linear-gradient(135deg, #74ebd5, #acb6e5);
+}
