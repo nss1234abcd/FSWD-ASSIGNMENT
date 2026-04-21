@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>📚 Bookstore</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f6f8;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input {
+      padding: 8px;
+      margin: 5px;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin: 5px;
+      border: none;
+      background: blue;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: darkblue;
+    }
+
+    .box {
+      background: white;
+      padding: 15px;
+      margin: 15px auto;
+      border-radius: 10px;
+      width: 300px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📚 Bookstore App</h1>
+
+  <!-- Add Author -->
+  <div class="box">
+    <h3>Add Author</h3>
+    <input id="authorName" placeholder="Author name">
+    <button onclick="addAuthor()">Add</button>
+  </div>
+
+  <!-- Add Book -->
+  <div class="box">
+    <h3>Add Book</h3>
+    <input id="bookTitle" placeholder="Book title">
+    <input id="bookAuthor" placeholder="Author">
+    <button onclick="addBook()">Add</button>
+  </div>
+
+  <!-- Display -->
+  <div class="box">
+    <h3>Authors</h3>
+    <ul id="authorsList"></ul>
+  </div>
+
+  <div class="box">
+    <h3>Books</h3>
+    <ul id="booksList"></ul>
+  </div>
+
+<script>
+
+async function fetchAuthors() {
+  const res = await fetch("/api/authors");
+  const data = await res.json();
+
+  const list = document.getElementById("authorsList");
+  list.innerHTML = "";
+
+  data.forEach(a => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      ${a.name}
+      <button onclick="deleteAuthor(${a.id})">❌</button>
+    `;
+
+    list.appendChild(li);
+  });
+}
+
+async function fetchBooks() {
+  const res = await fetch("/api/books");
+  const data = await res.json();
+
+  const list = document.getElementById("booksList");
+  list.innerHTML = "";
+
+  data.forEach(b => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      ${b.title} - ${b.author}
+      <button onclick="deleteBook(${b.id})">❌</button>
+    `;
+
+    list.appendChild(li);
+  });
+}
+async function addAuthor() {
+  const name = document.getElementById("authorName").value;
+
+  await fetch("/api/authors", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ name })
+  });
+
+  fetchAuthors();
+}
+async function deleteAuthor(id) {
+  await fetch(`/api/authors/${id}`, {
+    method: "DELETE"
+  });
+
+  fetchAuthors();
+}
+async function addBook() {
+  const title = document.getElementById("bookTitle").value;
+  const author = document.getElementById("bookAuthor").value;
+
+  await fetch("/api/books", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ title, author })
+  });
+
+  fetchBooks();
+}
+async function deleteBook(id) {
+  await fetch(`/api/books/${id}`, {
+    method: "DELETE"
+  });
+
+  fetchBooks(); // refresh list
+}
+// Load data on start
+fetchAuthors();
+fetchBooks();
+</script>
+
+</body>
+</html>
