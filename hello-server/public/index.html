@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Hello Server</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f0f4f8;
+      padding: 40px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    button {
+      padding: 10px 15px;
+      margin: 10px;
+      border: none;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    button:hover {
+      background: #0056b3;
+    }
+
+    #output {
+      margin-top: 20px;
+      padding: 20px;
+      background: white;
+      border-radius: 10px;
+      display: inline-block;
+      min-width: 250px;
+    }
+
+    input {
+      padding: 8px;
+      margin: 10px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>🚀 Hello Server App</h1>
+
+  <button onclick="getHello()">Say Hello</button>
+  <button onclick="getTime()">Get Time</button>
+  <button onclick="getUser()">Get User</button>
+
+  <br>
+
+  <input id="nameInput" placeholder="Enter your name">
+  <button onclick="greetUser()">Greet Me</button>
+
+  <div id="output">Response will appear here...</div>
+
+  <script>
+    async function getHello() {
+      const res = await fetch("/api/hello");
+      const data = await res.json();
+      document.getElementById("output").innerText = data.message;
+    }
+
+    async function getTime() {
+      const res = await fetch("/api/time");
+      const data = await res.json();
+      document.getElementById("output").innerText = data.time;
+    }
+
+    async function getUser() {
+      const res = await fetch("/api/user");
+      const data = await res.json();
+      document.getElementById("output").innerText =
+        `Name: ${data.name}, Role: ${data.role}`;
+    }
+
+    async function greetUser() {
+      const name = document.getElementById("nameInput").value;
+      const res = await fetch(`/api/greet/${name}`);
+      const data = await res.json();
+      document.getElementById("output").innerText = data.message;
+    }
+  </script>
+
+</body>
+</html>
