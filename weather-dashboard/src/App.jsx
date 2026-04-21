@@ -8,7 +8,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const API_KEY = "2e95f53d16e6ecc8ed0c610c477e7d4f";
+  const API_KEY = " ";
 
   const getWeather = async () => {
     if (!city) return;
