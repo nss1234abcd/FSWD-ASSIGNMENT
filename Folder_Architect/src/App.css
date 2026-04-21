@@ -1,0 +1,66 @@
+body {
+  margin: 0;
+  font-family: Arial;
+}
+
+.app {
+  padding: 20px;
+  background: #f4f6f8;
+  min-height: 100vh;
+}
+
+/* Folder */
+.folder {
+  margin-left: 20px;
+}
+
+.folder-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.folder-header span {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button {
+  padding: 5px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  background: #007bff;
+  color: white;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+/* Children */
+.children {
+  margin-left: 20px;
+  margin-top: 5px;
+}
+
+/* File */
+
+.file-container {
+  margin: 5px 0;
+}
+
+textarea {
+  width: 200px;
+  height: 80px;
+  margin-top: 5px;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.file {
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+}
