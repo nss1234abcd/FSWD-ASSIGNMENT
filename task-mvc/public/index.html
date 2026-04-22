@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MVC Task Manager</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #eef2f7;
+      text-align: center;
+      padding: 30px;
+    }
+
+    input {
+      padding: 10px;
+    }
+
+    button {
+      padding: 8px;
+      margin: 5px;
+      background: blue;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    li {
+      background: white;
+      margin: 10px auto;
+      padding: 10px;
+      width: 320px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .done {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+<h1>🧠 MVC Task Manager</h1>
+
+<input id="taskInput" placeholder="Enter task">
+<button onclick="addTask()">Add</button>
+
+<ul id="list"></ul>
+
+<script>
+async function fetchTasks() {
+  const res = await fetch("/api/tasks");
+  const data = await res.json();
+
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  data.forEach(t => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      <span class="${t.completed ? 'done' : ''}">
+        ${t.text}
+      </span>
+      <div>
+        <button onclick="updateTask(${t.id})">✔</button>
+        <button onclick="deleteTask(${t.id})">❌</button>
+      </div>
+    `;
+
+    list.appendChild(li);
+  });
+}
+
+async function addTask() {
+  const text = document.getElementById("taskInput").value;
+
+  await fetch("/api/tasks", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ text })
+  });
+
+  document.getElementById("taskInput").value = "";
+  fetchTasks();
+}
+
+async function updateTask(id) {
+  await fetch(`/api/tasks/${id}`, {
+    method: "PUT"
+  });
+
+  fetchTasks();
+}
+
+async function deleteTask(id) {
+  await fetch(`/api/tasks/${id}`, {
+    method: "DELETE"
+  });
+
+  fetchTasks();
+}
+
+fetchTasks();
+</script>
+
+</body>
+</html>
