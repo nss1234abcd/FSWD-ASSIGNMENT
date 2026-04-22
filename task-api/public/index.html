@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Task Manager</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f4f6f8;
+      text-align: center;
+      padding: 30px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    input {
+      padding: 10px;
+      width: 200px;
+    }
+
+    button {
+      padding: 8px 12px;
+      margin: 5px;
+      border: none;
+      background: blue;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: darkblue;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      background: white;
+      margin: 10px auto;
+      padding: 10px;
+      width: 300px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .done {
+      text-decoration: line-through;
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📝 Task Manager</h1>
+
+  <input id="taskInput" placeholder="Enter task">
+  <button onclick="addTask()">Add</button>
+
+  <ul id="taskList"></ul>
+
+<script>
+async function fetchTasks() {
+  const res = await fetch("/api/tasks");
+  const data = await res.json();
+
+  const list = document.getElementById("taskList");
+  list.innerHTML = "";
+
+  data.forEach(task => {
+    const li = document.createElement("li");
+
+    li.innerHTML = `
+      <span class="${task.completed ? 'done' : ''}">
+        ${task.text}
+      </span>
+      <div>
+        <button onclick="toggleTask(${task.id})">✔</button>
+        <button onclick="deleteTask(${task.id})">❌</button>
+      </div>
+    `;
+
+    list.appendChild(li);
+  });
+}
+
+// ➕ Add
+async function addTask() {
+  const text = document.getElementById("taskInput").value;
+
+  await fetch("/api/tasks", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({ text })
+  });
+
+  document.getElementById("taskInput").value = "";
+  fetchTasks();
+}
+
+// ✔ Toggle
+async function toggleTask(id) {
+  await fetch(`/api/tasks/${id}`, {
+    method: "PUT"
+  });
+
+  fetchTasks();
+}
+
+// ❌ Delete
+async function deleteTask(id) {
+  await fetch(`/api/tasks/${id}`, {
+    method: "DELETE"
+  });
+
+  fetchTasks();
+}
+
+// Load on start
+fetchTasks();
+</script>
+
+</body>
+</html>
