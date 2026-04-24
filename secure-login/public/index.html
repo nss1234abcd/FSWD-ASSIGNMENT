@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Secure Login</title>
+  <style>
+    body {
+      font-family: Arial;
+      display: flex;
+      justify-content: center;
+      margin-top: 50px;
+    }
+    .box {
+      width: 300px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    input {
+      width: 100%;
+      margin: 5px 0;
+      padding: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: blue;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="box">
+  <h2>Signup</h2>
+  <input id="name" placeholder="Name">
+  <input id="email" placeholder="Email">
+  <input id="password" placeholder="Password" type="password">
+  <button onclick="signup()">Signup</button>
+
+  <h2>Login</h2>
+  <input id="email2" placeholder="Email">
+  <input id="password2" placeholder="Password" type="password">
+  <button onclick="login()">Login</button>
+
+  <h3 id="msg"></h3>
+</div>
+
+<script>
+let token = "";
+
+async function signup() {
+  const res = await fetch("/api/signup", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      name: name.value,
+      email: email.value,
+      password: password.value
+    })
+  });
+  msg.innerText = "Signup Success";
+}
+
+async function login() {
+  const res = await fetch("/api/login", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      email: email2.value,
+      password: password2.value
+    })
+  });
+
+  const data = await res.json();
+  token = data.token;
+  msg.innerText = "Login Success";
+  getDashboard();
+}
+
+async function getDashboard() {
+  const res = await fetch("/api/dashboard", {
+    headers: {
+      "Authorization": token
+    }
+  });
+
+  const data = await res.json();
+  msg.innerText = data.message;
+}
+</script>
+
+</body>
+</html>
